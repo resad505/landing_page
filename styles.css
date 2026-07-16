@@ -1,0 +1,38 @@
+.nav__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+}
+
+.nav__logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+    color: #2f67b5;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+nav a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    transition: color 0.3s ease, background 0.3s ease;
+}
+
+nav a:hover,
+nav a.active {
+    color: #f1f5f9;
+    background: rgba(255, 255, 255, 0.05);
+}
