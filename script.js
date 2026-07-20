@@ -60,3 +60,149 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+/* ==========================================================================
+   Checkpoint 4 — Contact Form Client-Side Validation
+   ========================================================================== */
+(function () {
+    'use strict';
+
+    // Email regex (RFC 5322 simplified)
+    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // --- Helper: set field as invalid ---
+    function setInvalid(input, errorEl, message) {
+        input.classList.remove('contact__input--valid', 'contact__textarea--valid');
+        input.classList.add('contact__input--invalid', 'contact__textarea--invalid');
+        input.setAttribute('aria-invalid', 'true');
+        errorEl.textContent = message;
+    }
+
+    // --- Helper: set field as valid ---
+    function setValid(input, errorEl) {
+        input.classList.remove('contact__input--invalid', 'contact__textarea--invalid');
+        input.classList.add('contact__input--valid', 'contact__textarea--valid');
+        input.setAttribute('aria-invalid', 'false');
+        errorEl.textContent = '';
+    }
+
+    // --- Helper: clear field state ---
+    function clearState(input, errorEl) {
+        input.classList.remove(
+            'contact__input--invalid', 'contact__textarea--invalid',
+            'contact__input--valid',   'contact__textarea--valid'
+        );
+        input.removeAttribute('aria-invalid');
+        errorEl.textContent = '';
+    }
+
+    // --- Validate a single field, return true if valid ---
+    function validateField(input, errorEl) {
+        const value = input.value.trim();
+
+        // Empty check
+        if (value === '') {
+            setInvalid(input, errorEl, 'Bu sahə boş buraxıla bilməz.');
+            return false;
+        }
+
+        // Email-specific regex check
+        if (input.type === 'email' || input.id === 'email') {
+            if (!EMAIL_REGEX.test(value)) {
+                setInvalid(input, errorEl, 'Düzgün e-mail ünvanı daxil edin (məs: ad@example.com).');
+                return false;
+            }
+        }
+
+        // Name minimum length check
+        if (input.id === 'fullname' && value.length < 2) {
+            setInvalid(input, errorEl, 'Ad ən azı 2 simvol olmalıdır.');
+            return false;
+        }
+
+        // Message minimum length check
+        if (input.id === 'message' && value.length < 10) {
+            setInvalid(input, errorEl, 'Mesaj ən azı 10 simvol olmalıdır.');
+            return false;
+        }
+
+        setValid(input, errorEl);
+        return true;
+    }
+
+    // --- DOM elements ---
+    const form       = document.querySelector('.contact__form');
+    if (!form) return;
+
+    const nameInput  = document.getElementById('fullname');
+    const emailInput = document.getElementById('email');
+    const msgInput   = document.getElementById('message');
+    const nameError  = document.getElementById('fullname-error');
+    const emailError = document.getElementById('email-error');
+    const msgError   = document.getElementById('message-error');
+    const successBox = document.getElementById('form-success');
+    const submitBtn  = document.getElementById('submit-btn');
+
+    const fields = [
+        { input: nameInput,  error: nameError  },
+        { input: emailInput, error: emailError },
+        { input: msgInput,   error: msgError   },
+    ];
+
+    // --- Real-time validation on blur and input events ---
+    fields.forEach(({ input, error }) => {
+        // Validate after user leaves the field
+        input.addEventListener('blur', () => {
+            if (input.value.trim() !== '') {
+                validateField(input, error);
+            }
+        });
+
+        // Re-validate while typing in an already-invalid field
+        input.addEventListener('input', () => {
+            if (input.classList.contains('contact__input--invalid') ||
+                input.classList.contains('contact__textarea--invalid')) {
+                validateField(input, error);
+            }
+        });
+    });
+
+    // --- Form submit handler ---
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const results  = fields.map(({ input, error }) => validateField(input, error));
+        const allValid = results.every(Boolean);
+
+        if (!allValid) {
+            // Shake animation
+            form.classList.remove('contact__form--shake');
+            void form.offsetWidth; // force reflow to restart animation
+            form.classList.add('contact__form--shake');
+            form.addEventListener('animationend', () => {
+                form.classList.remove('contact__form--shake');
+            }, { once: true });
+
+            // Focus first invalid field
+            fields[results.findIndex(r => r === false)].input.focus();
+            return;
+        }
+
+        // All valid — simulate successful submission
+        submitBtn.disabled    = true;
+        submitBtn.textContent = 'Göndərilir...';
+
+        setTimeout(() => {
+            fields.forEach(({ input, error }) => clearState(input, error));
+            form.reset();
+            submitBtn.disabled    = false;
+            submitBtn.textContent = 'Göndər';
+
+            if (successBox) {
+                successBox.hidden = false;
+                successBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                setTimeout(() => { successBox.hidden = true; }, 6000);
+            }
+        }, 800);
+    });
+})();
