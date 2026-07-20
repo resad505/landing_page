@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mainNav.classList.add('header__nav--open');
         menuOverlay.classList.add('header__overlay--visible');
         menuToggle.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
+        document.body.classList.add('body--no-scroll');
 
         // Accessibility: Hide page background from screen readers / block keyboard focus
         if (mainContent) mainContent.setAttribute('inert', '');
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mainNav.classList.remove('header__nav--open');
         menuOverlay.classList.remove('header__overlay--visible');
         menuToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        document.body.classList.remove('body--no-scroll');
 
         // Accessibility: Restore page background
         if (mainContent) mainContent.removeAttribute('inert');

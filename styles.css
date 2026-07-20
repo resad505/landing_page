@@ -16,6 +16,19 @@
     --alert-bg: #fee2e2;
     --alert-text: #991b1b;
 
+    /* Validasiya rəngləri */
+    --error-color: #dc2626;
+    --error-text: #b91c1c;
+    --error-bg: #fff5f5;
+    --error-ring: rgba(220, 38, 38, 0.1);
+    --error-ring-focus: rgba(220, 38, 38, 0.15);
+
+    --success-color: #16a34a;
+    --success-text: #15803d;
+    --success-bg: #f0fdf4;
+    --success-border: #bbf7d0;
+    --success-ring: rgba(22, 163, 74, 0.12);
+
     /* Şriftlər */
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -25,6 +38,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+/* Utility: scroll lock (JS tərəfindən tətbiq olunur, inline style əvəzinə) */
+.body--no-scroll {
+    overflow: hidden;
 }
 
 html {
@@ -518,30 +536,30 @@ body {
 /* Invalid input field */
 .contact__input--invalid,
 .contact__textarea--invalid {
-    border-color: #dc2626;
-    background-color: #fff5f5;
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    border-color: var(--error-color);
+    background-color: var(--error-bg);
+    box-shadow: 0 0 0 3px var(--error-ring);
 }
 
 .contact__input--invalid:focus,
 .contact__textarea--invalid:focus {
-    border-color: #dc2626;
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
-    background-color: #fff5f5;
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 3px var(--error-ring-focus);
+    background-color: var(--error-bg);
 }
 
 /* Valid input field */
 .contact__input--valid,
 .contact__textarea--valid {
-    border-color: #16a34a;
-    background-color: #f0fdf4;
+    border-color: var(--success-color);
+    background-color: var(--success-bg);
 }
 
 .contact__input--valid:focus,
 .contact__textarea--valid:focus {
-    border-color: #16a34a;
-    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
-    background-color: #f0fdf4;
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 3px var(--success-ring);
+    background-color: var(--success-bg);
 }
 
 /* Error message text */
@@ -549,7 +567,7 @@ body {
     display: block;
     font-size: 13px;
     font-weight: 500;
-    color: #b91c1c; /* Tünd qırmızı - ağ fon üzərində kontrastı (6.5:1) təmin etmək üçün */
+    color: var(--error-text); /* Tünd qırmızı - ağ fon üzərində kontrastı (6.5:1) təmin etmək üçün */
     min-height: 18px;
     opacity: 0;
     transform: translateY(-4px);
@@ -563,13 +581,13 @@ body {
 
 /* Success message */
 .contact__success {
-    background-color: #f0fdf4;
-    border: 1px solid #bbf7d0;
+    background-color: var(--success-bg);
+    border: 1px solid var(--success-border);
     border-radius: 8px;
     padding: 14px 18px;
     font-size: 14px;
     font-weight: 500;
-    color: #15803d;
+    color: var(--success-text);
     text-align: center;
 }
 
