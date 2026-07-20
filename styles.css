@@ -1,3 +1,37 @@
+:root {
+    /* Rənglər */
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-hero: #f0f7ff;
+
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --text-light: #94a3b8;
+
+    --border-color: #e2e8f0;
+
+    --alert-bg: #fee2e2;
+    --alert-text: #991b1b;
+
+    /* Şriftlər */
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-hero);
+
+}
+
 .nav__container {
     max-width: 1200px;
     margin: 0 auto;
@@ -15,6 +49,10 @@
     color: #2f67b5;
 }
 
+header {
+    background-color: var(--bg-primary);
+}
+
 nav {
     display: flex;
     align-items: center;
@@ -22,7 +60,7 @@ nav {
 }
 
 nav a {
-    color: #94a3b8;
+    color: black;
     text-decoration: none;
     font-weight: 500;
     font-size: 15px;
@@ -35,4 +73,19 @@ nav a:hover,
 nav a.active {
     color: #f1f5f9;
     background: rgba(255, 255, 255, 0.05);
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+p {
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: #475569;
+}
+
+.hero {
+    background-color: var(--bg-hero);
 }
