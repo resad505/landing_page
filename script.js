@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainNav = document.getElementById('main-nav');
     const menuOverlay = document.getElementById('menu-overlay');
     const navLinks = document.querySelectorAll('.header__nav-link');
+    const mainContent = document.querySelector('.main-content');
+    const footer = document.querySelector('.footer');
 
     if (!menuToggle || !mainNav || !menuOverlay) return;
 
@@ -13,22 +15,43 @@ document.addEventListener('DOMContentLoaded', () => {
         menuOverlay.classList.add('header__overlay--visible');
         menuToggle.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
+
+        // Accessibility: Hide page background from screen readers / block keyboard focus
+        if (mainContent) mainContent.setAttribute('inert', '');
+        if (footer) footer.setAttribute('inert', '');
+
+        // Accessibility: Focus first nav link when opened
+        const firstLink = mainNav.querySelector('.header__nav-link');
+        if (firstLink) {
+            setTimeout(() => {
+                firstLink.focus();
+            }, 100);
+        }
     }
 
     // Close Mobile Menu
-    function closeMenu() {
+    function closeMenu(shouldFocusToggle = true) {
         menuToggle.classList.remove('header__toggle--active');
         mainNav.classList.remove('header__nav--open');
         menuOverlay.classList.remove('header__overlay--visible');
         menuToggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+
+        // Accessibility: Restore page background
+        if (mainContent) mainContent.removeAttribute('inert');
+        if (footer) footer.removeAttribute('inert');
+
+        // Return focus to toggle button when requested
+        if (shouldFocusToggle) {
+            menuToggle.focus();
+        }
     }
 
     // Toggle Mobile Menu
     function toggleMenu() {
         const isOpen = mainNav.classList.contains('header__nav--open');
         if (isOpen) {
-            closeMenu();
+            closeMenu(true);
         } else {
             openMenu();
         }
@@ -36,18 +59,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event Listeners
     menuToggle.addEventListener('click', toggleMenu);
-    menuOverlay.addEventListener('click', closeMenu);
+    menuOverlay.addEventListener('click', () => closeMenu(true));
 
     // Close menu when a link is clicked
     navLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
+        link.addEventListener('click', (e) => {
+            closeMenu(false);
+
+            // Focus the target section for screen readers
+            const targetId = link.getAttribute('href');
+            if (targetId && targetId.startsWith('#')) {
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                    targetEl.setAttribute('tabindex', '-1');
+                    targetEl.focus({ preventScroll: true });
+                }
+            }
+        });
     });
 
     // Close menu on ESC key press
     window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && mainNav.classList.contains('header__nav--open')) {
-            closeMenu();
-            menuToggle.focus();
+            closeMenu(true);
         }
     });
 
@@ -55,7 +89,33 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => {
         if (window.innerWidth >= 768) {
             if (mainNav.classList.contains('header__nav--open')) {
-                closeMenu();
+                closeMenu(false);
+            }
+        }
+    });
+
+    // Focus Trap inside Mobile Menu
+    window.addEventListener('keydown', (e) => {
+        if (window.innerWidth >= 768) return; // Only apply on mobile screens
+        if (!mainNav.classList.contains('header__nav--open')) return;
+
+        if (e.key === 'Tab') {
+            const focusableElements = [menuToggle, ...navLinks];
+            const firstEl = focusableElements[0];
+            const lastEl = focusableElements[focusableElements.length - 1];
+
+            if (e.shiftKey) {
+                // Shift + Tab: if focus is on the first element, wrap to last
+                if (document.activeElement === firstEl) {
+                    lastEl.focus();
+                    e.preventDefault();
+                }
+            } else {
+                // Tab: if focus is on the last element, wrap to first
+                if (document.activeElement === lastEl) {
+                    firstEl.focus();
+                    e.preventDefault();
+                }
             }
         }
     });
@@ -90,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function clearState(input, errorEl) {
         input.classList.remove(
             'contact__input--invalid', 'contact__textarea--invalid',
-            'contact__input--valid',   'contact__textarea--valid'
+            'contact__input--valid', 'contact__textarea--valid'
         );
         input.removeAttribute('aria-invalid');
         errorEl.textContent = '';
@@ -131,22 +191,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- DOM elements ---
-    const form       = document.querySelector('.contact__form');
+    const form = document.querySelector('.contact__form');
     if (!form) return;
 
-    const nameInput  = document.getElementById('fullname');
+    const nameInput = document.getElementById('fullname');
     const emailInput = document.getElementById('email');
-    const msgInput   = document.getElementById('message');
-    const nameError  = document.getElementById('fullname-error');
+    const msgInput = document.getElementById('message');
+    const nameError = document.getElementById('fullname-error');
     const emailError = document.getElementById('email-error');
-    const msgError   = document.getElementById('message-error');
+    const msgError = document.getElementById('message-error');
     const successBox = document.getElementById('form-success');
-    const submitBtn  = document.getElementById('submit-btn');
+    const submitBtn = document.getElementById('submit-btn');
 
     const fields = [
-        { input: nameInput,  error: nameError  },
+        { input: nameInput, error: nameError },
         { input: emailInput, error: emailError },
-        { input: msgInput,   error: msgError   },
+        { input: msgInput, error: msgError },
     ];
 
     // --- Real-time validation on blur and input events ---
@@ -171,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const results  = fields.map(({ input, error }) => validateField(input, error));
+        const results = fields.map(({ input, error }) => validateField(input, error));
         const allValid = results.every(Boolean);
 
         if (!allValid) {
@@ -189,13 +249,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // All valid — simulate successful submission
-        submitBtn.disabled    = true;
+        submitBtn.disabled = true;
         submitBtn.textContent = 'Göndərilir...';
 
         setTimeout(() => {
             fields.forEach(({ input, error }) => clearState(input, error));
             form.reset();
-            submitBtn.disabled    = false;
+            submitBtn.disabled = false;
             submitBtn.textContent = 'Göndər';
 
             if (successBox) {
