@@ -53,10 +53,11 @@ header {
     background-color: var(--bg-primary);
 }
 
-nav {
+nav ul {
     display: flex;
     align-items: center;
     gap: 8px;
+    list-style: none;
 }
 
 nav a {
