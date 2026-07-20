@@ -12,96 +12,108 @@
 </head>
 
 <body>
-    <header>
-        <div class="nav__container">
-            <a href="index.html" class="nav__logo">NovaTech</a>
-            <nav>
-                <ul>
-                    <li><a href="#haqqimizda">Haqqımızda</a></li>
-                    <li><a href="#galereya">Qalereya</a></li>
-                    <li><a href="#elaqe">Əlaqə</a></li>
+    <header class="header">
+        <div class="header__container">
+            <a href="index.html" class="header__logo">NovaTech</a>
+            <button class="header__toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav"
+                aria-label="Menyunu aç/bağla">
+                <span class="header__toggle-bar"></span>
+                <span class="header__toggle-bar"></span>
+                <span class="header__toggle-bar"></span>
+            </button>
+            <nav class="header__nav" id="main-nav">
+                <ul class="header__nav-list">
+                    <li class="header__nav-item"><a href="#haqqimizda" class="header__nav-link">Haqqımızda</a></li>
+                    <li class="header__nav-item"><a href="#galereya" class="header__nav-link">Qalereya</a></li>
+                    <li class="header__nav-item"><a href="#elaqe" class="header__nav-link">Əlaqə</a></li>
                 </ul>
             </nav>
+            <div class="header__overlay" id="menu-overlay"></div>
         </div>
     </header>
 
-    <main>
+    <main class="main-content">
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero__container">
-                <h1>Rəqəmsal Dünyada Sizin Güvənli Tərəfdaşınız</h1>
-                <p>Biz biznesiniz üçün ən innovativ Web və mobil həlləri sıfırdan hazırlayırıq.</p>
-                <a href="#elaqe" class="btn">Bizimlə əlaqə</a>
+                <h1 class="hero__title">Rəqəmsal Dünyada Sizin Güvənli Tərəfdaşınız</h1>
+                <p class="hero__description">Biz biznesiniz üçün ən innovativ Web və mobil həlləri sıfırdan
+                    hazırlayırıq.</p>
+                <a href="#elaqe" class="button button--primary hero__button">Bizimlə əlaqə</a>
             </div>
         </section>
 
         <!-- Haqqımızda Section -->
-        <section class="haqqimizda" id="haqqimizda">
-            <div class="haqqimizda__container">
-                <div class="haqqimizda__left">
-                    <div class="question">
-                        <h2>Niyə bizi seçməlisiniz?</h2>
-                        <p>10 ildən artıq təcrübəmizlə layihələrinizi vaxtında və yüksək keyfiyyətlə təhvil veririk.
+        <section class="about" id="haqqimizda">
+            <div class="about__container">
+                <div class="about__left">
+                    <div class="about__content">
+                        <h2 class="about__title">Niyə bizi seçməlisiniz?</h2>
+                        <p class="about__text">10 ildən artıq təcrübəmizlə layihələrinizi vaxtında və yüksək keyfiyyətlə
+                            təhvil veririk.
                             Sürət, təhlükəsizlik və əlçatanlıq bizim əsas prinsiplərimizdir.</p>
                     </div>
-                    <div class="link">
-                        <h3>Texniki Dəstək Linkimiz:</h3>
-                        <a href="#">Dəstək səhifəsinə keçid</a>
+                    <div class="about__support">
+                        <h3 class="about__support-title">Texniki Dəstək Linkimiz:</h3>
+                        <a href="#" class="about__support-link">Dəstək səhifəsinə keçid</a>
                     </div>
                 </div>
-                <div class="haqqimizda__right">
-                    <div class="uğurlu__layihe">
-                        <span class="stat-number">150+</span>
-                        <p>Uğurlu Layihə</p>
+                <div class="about__right">
+                    <div class="about__stat-card">
+                        <span class="about__stat-number">150+</span>
+                        <p class="about__stat-label">Uğurlu Layihə</p>
                     </div>
-                    <div class="müştəri__məmnuniyyəti">
-                        <span class="stat-number">99%</span>
-                        <p>Müştəri Məmnuniyyəti</p>
+                    <div class="about__stat-card">
+                        <span class="about__stat-number">99%</span>
+                        <p class="about__stat-label">Müştəri Məmnuniyyəti</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Qalereya Section -->
-        <section class="galereya" id="galereya">
-            <div class="galereya__container">
-                <h2>Bizim Qalereya</h2>
-                <div class="galereya__grid">
-                    <img src="assets/tech1.jpeg" alt="Ofis mühiti və komanda işi">
-                    <img src="assets/tech2.jpeg" alt="Kompüterdə kod yazan proqramçı">
-                    <img src="assets/tech3.jpeg" alt="Müasir server otağı və şəbəkə avadanlıqları">
+        <section class="gallery" id="galereya">
+            <div class="gallery__container">
+                <h2 class="gallery__title">Bizim Qalereya</h2>
+                <div class="gallery__grid">
+                    <img src="assets/tech1.jpeg" alt="Ofis mühiti və komanda işi" class="gallery__image">
+                    <img src="assets/tech2.jpeg" alt="Kompüterdə kod yazan proqramçı" class="gallery__image">
+                    <img src="assets/tech3.jpeg" alt="Müasir server otağı və şəbəkə avadanlıqları"
+                        class="gallery__image">
                 </div>
             </div>
         </section>
 
         <!-- Əlaqə Section -->
-        <section class="elaqe" id="elaqe">
-            <div class="elaqe__container">
-                <h2>Bizimlə əlaqə</h2>
-                <form action="#" method="POST">
-                    <div class="form-group">
-                        <label for="fullname">Ad və Soyad*</label>
-                        <input type="text" id="fullname" name="fullname" required>
+        <section class="contact" id="elaqe">
+            <div class="contact__container">
+                <h2 class="contact__title">Bizimlə əlaqə</h2>
+                <form action="#" method="POST" class="contact__form" netlify>
+                    <div class="contact__form-group">
+                        <label for="fullname" class="contact__label">Ad və Soyad*</label>
+                        <input type="text" id="fullname" name="fullname" class="contact__input" required>
                     </div>
-                    <div class="form-group">
-                        <label for="email">E-mail Ünvanı*</label>
-                        <input type="email" id="email" name="email" required>
+                    <div class="contact__form-group">
+                        <label for="email" class="contact__label">E-mail Ünvanı*</label>
+                        <input type="email" id="email" name="email" class="contact__input" required>
                     </div>
-                    <div class="form-group">
-                        <label for="message">Mesajınız*</label>
-                        <textarea name="message" id="message" cols="30" rows="10" required></textarea>
+                    <div class="contact__form-group">
+                        <label for="message" class="contact__label">Mesajınız*</label>
+                        <textarea name="message" id="message" cols="30" rows="10" class="contact__textarea"
+                            required></textarea>
                     </div>
-                    <button type="submit">Göndər</button>
+                    <button type="submit" class="button button--submit contact__button">Göndər</button>
                 </form>
             </div>
         </section>
     </main>
 
-    <footer>
+    <footer class="footer">
         <div class="footer__container">
-            <p>&copy; 2026 NovaTech. Bütün hüquqlar qorunur.</p>
+            <p class="footer__text">&copy; 2026 NovaTech. Bütün hüquqlar qorunur.</p>
         </div>
     </footer>
+    <script src="script.js"></script>
 </body>
 
 </html>
