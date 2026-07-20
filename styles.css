@@ -40,6 +40,50 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Accessibility focus styles and Skip link */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 20px;
+    background-color: var(--primary-color);
+    color: var(--bg-primary);
+    padding: 10px 20px;
+    border-radius: 0 0 8px 8px;
+    font-weight: 600;
+    text-decoration: none;
+    z-index: 10000;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus-visible {
+    top: 0;
+    outline: 3px solid var(--text-main);
+    outline-offset: 2px;
+}
+
+/* Reset default focus ring for keyboard users globally, replacing with consistent highly visible focus ring */
+:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 3px;
+}
+
+/* Custom focus styles for elements where default style is not ideal */
+.button:focus-visible,
+.header__logo:focus-visible,
+.header__nav-link:focus-visible,
+.about__support-link:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 4px;
+}
+
+.contact__input:focus-visible,
+.contact__textarea:focus-visible {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+    background-color: var(--bg-primary);
+}
+
 /* Layout container */
 .header__container,
 .hero__container,
@@ -182,11 +226,13 @@ body {
     flex-direction: column;
     padding: 80px 24px 24px;
     transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header__nav--open {
     transform: translateX(0);
+    visibility: visible;
 }
 
 .header__nav-list {
@@ -503,7 +549,7 @@ body {
     display: block;
     font-size: 13px;
     font-weight: 500;
-    color: #dc2626;
+    color: #b91c1c; /* Tünd qırmızı - ağ fon üzərində kontrastı (6.5:1) təmin etmək üçün */
     min-height: 18px;
     opacity: 0;
     transform: translateY(-4px);
@@ -589,6 +635,7 @@ body {
         transform: none;
         transition: none;
         display: block;
+        visibility: visible;
     }
 
     .header__nav-list {

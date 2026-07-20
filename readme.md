@@ -156,3 +156,42 @@ Checkpoint 4 tələblərinə uyğun olaraq, əlaqə formasına tam müştəri t�
 1.  **`required` Atributunun Silinməsi:** Bütün form sahələrindən `required` atributu çıxarıldı. Validasiya tamamilə JS tərəfindən idarə olunur.
 2.  **`void form.offsetWidth` ilə Reflow:** Animasiyanı yenidən başlatmaq üçün sinif silinir, `void form.offsetWidth` ilə brauzerin yenidən hesablama (reflow) aparması məcbur edilir, sonra sinif yenidən əlavə olunur.
 3.  **Hər iki sinif əlavə edildi:** `setInvalid` / `setValid` funksiyalarında həm `.contact__input--invalid` həm də `.contact__textarea--invalid` sinifləri eyni vaxtda əlavə/silinir ki, hər iki element tipi düzgün işləsin.
+
+---
+
+# Checkpoint 5: Əlçatanlıq (Accessibility) Hesabatı
+
+Bu hesabatda "NovaTech" layihəsinin beşinci mərhələsində (Checkpoint 5) görülən işlər, tətbiq olunmuş yanaşma, qarşılaşdığımız əlçatanlıq problemləri və onların həlli yolları əks olunmuşdur.
+
+---
+
+## 1. Görülən İş (Work Done)
+Checkpoint 5 tələblərinə uyğun olaraq, veb-səhifənin əlçatanlığı (a11y) standartlara və qaydalara uyğunlaşdırıldı:
+*   **Skip to Content Linki:** Klaviatura vasitəsilə naviqasiya edən istifadəçilərin təkrar olunan menyu elementlərini atlayaraq birbaşa əsas məzmuna keçməsi üçün səhifənin ən əvvəlinə gizli "Skip to content" linki əlavə edildi.
+*   **Klaviatura Fokus Çərçivələri (Focus Ring):** Bütün düymələr, linklər və form sahələri üçün aydın, yüksək kontrastlı və estetik `:focus-visible` fokus xüsusiyyətləri təyin olundu.
+*   **İnert Atributu Tətbiqi:** Mobil menyu açıldıqda arxa plandakı elementlərin (`<main>` və `<footer>`) klaviatura fokusunu almaması və ekran oxuyucuları tərəfindən oxunmaması üçün HTML5 `inert` atributundan istifadə edildi.
+*   **Focus Trap (Fokus Tələsi):** Mobil menyu açıq olduqda, fokusun menyunun hüdudlarından kənara çıxmaması və menyu daxilində dövr etməsi təmin edildi.
+*   **Menyu Fokus İdarəetməsi:** Mobil menyu açıldıqda fokus ilk linkə yönləndirilir, menyu bağlandıqda isə fokus avtomatik olaraq onu açan hamburger düyməsinə geri qayıdır.
+*   **ARIA Təkmilləşdirmələri:** Form sahələri `aria-describedby` atributu ilə öz müvafiq xəta mesajı span-larına bağlandı.
+*   **Kontrast Artımı:** Xəta mesajlarının rəngi daha tünd çalara dəyişdirilərək ağ fon üzərində minimum 4.5:1 kontrast tələbi 6.5:1 kontrast nisbəti ilə təmin edildi.
+
+---
+
+## 2. İstifadə Edilən Yanaşma (Approach Used)
+*   **Müasir Fokus Standartı:** `:focus` yerinə `:focus-visible` istifadə olundu ki, yalnız klaviatura istifadəçiləri fokus çərçivəsini görsünlər, siçan ilə klikləyənlər üçün dizayn təmiz qalsın.
+*   **`inert` ilə Tam Bloklama:** Menyu açıq olduqda klaviatura fokusunu və ekran oxuyucularını tamamilə bloklamaq üçün ən müasir və etibarlı üsul olan `inert` atributundan istifadə edildi.
+*   **Scroll & Focus İnteqrasiyası:** Naviqasiya linkləri klikləndikdə təkcə səhifə sürüşmür, həm də fokus hədəf bölməyə (`tabindex="-1"` vasitəsilə) yönləndirilir ki, ekran oxuyucuları oxumağa doğru yerdən başlasın.
+
+---
+
+## 3. Qarşılaşdığımız Problemlər (Problems Faced)
+1.  **Gizli Menyudakı Fokus Sızması:** Mobil menyu bağlı və ekranın kənarında (`transform: translateX(100%)`) gizli olduqda belə, klaviatura ilə Tab basdıqda menyu linkləri fokus qəbul edirdi. Bu, klaviatura istifadəçiləri üçün çaşqınlıq yaradırdı.
+2.  **Kontrast Yetersizliyi:** Ağ fon üzərində istifadə olunan `#dc2626` xəta rənginin kontrastı minimal limitdə idi və bəzi ekranlarda görmə çətinliyi olan istifadəçilər üçün kifayət qədər aydın deyildi.
+3.  **Klaviatura Fokusunun İtirilməsi:** Mobil menyunu klaviatura ilə gəzərkən fokusun menyudan çıxıb səhifənin görünməyən hissələrinə sızması problemi var idi.
+
+---
+
+## 4. Problemlərin Həlli Yolu (How We Solved It)
+1.  **`visibility: hidden` İnteqrasiyası:** Mobil naviqasiya panelinə (`.header__nav`) varsayılan olaraq `visibility: hidden` verildi və menyu açıldıqda `visibility: visible` sinfi tətbiq olundu. Bu, keçid animasiyasını pozmadan bağlı menyunun fokuslanmasının qarşısını aldı.
+2.  **Daha Yüksək Kontrastlı Rəng:** Xəta rəngi `#dc2626`-dan `#b91c1c` tonuna dəyişdirildi. Bu, vizual dizayna zərər vermədən kontrast nisbətini 6.5:1-ə qaldırdı.
+3.  **JavaScript ilə Focus Trap:** `script.js` faylında klaviatura hadisələrini izləyərək Tab və Shift+Tab basıldıqda fokusun yalnız hamburger düyməsi və menyu linkləri arasında dövr etməsinə nəzarət edən məntiq quruldu.
