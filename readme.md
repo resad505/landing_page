@@ -1,118 +1,198 @@
-# Checkpoint 1: Semantik HTML Hesabatı
+﻿# NovaTech — Landing Page
 
-Bu hesabatda "NovaTech" layihəsinin ilkin mərhələsində görülən işlər, tətbiq olunmuş yanaşma, qarşılaşdığımız semantik HTML problemləri və onların həlli yolları əks olunmuşdur.
+> **DevJoint Frontend Development Task — Həftə 1**
 
----
-
-## 1. Görülən İş (Work Done)
-Checkpoint 1 tələblərinə uyğun olaraq, layihənin HTML strukturu standartlara və müasir semantik qaydalara uyğun olaraq tamamilə yenidən quruldu. Səhifənin skeletindəki qeyri-semantik (div-əsaslı) və əlçatanlıq (accessibility) cəhətdən zəif olan bütün elementlər düzəldildi:
-*   Səhifəyə `<footer>` bölməsi əlavə edildi.
-*   Bütün əsas bölmələr (Sections) üçün `id` atributları təyin edildi və naviqasiya menyusu ilə əlaqələndirildi.
-*   Başlıq iyerarxiyası (`<h1>` - `<h2>`) və şəkillərin `alt` təsvirləri tənzimləndi.
-*   Əlaqə forması üçün `<label>` və `<input>` teqləri əlaqələndirildi.
+Vanilla HTML, CSS və JavaScript ilə hazırlanmış tam responsiv landing page layihəsi.
 
 ---
 
-## 2. İstifadə Edilən Yanaşma (Approach Used)
-Layihənin həm axtarış sistemləri (SEO), həm də ekran oxuyucuları (screen readers) üçün maksimum optimal olması üçün **Semantik HTML5 və Əlçatanlıq (Accessibility) prinsipləri** əsas götürüldü:
-*   **Strukturun Bölünməsi:** Səhifənin yuxarı hissəsi `<header>`, əsas məzmunu `<main>` və alt hissəsi `<footer>` daxilinə yığıldı.
-*   **Naviqasiya:** Siyahı elementlərinin (`<ul>`, `<li>`) və `<nav>` teqinin birgə istifadəsi ilə semantik menyu yaradıldı.
-*   **İyerarxiya:** Səhifədə yalnız bir əsas başlıq (`<h1>`) saxlanıldı və digər bölmələr ardıcıl şəkildə `<h2>` və `<h3>` teqləri ilə strukturlaşdırıldı.
+## 📋 Checkpoint-lər
+
+| # | Mövzu | Bal |
+|---|-------|-----|
+| ✅ 1 | Semantik HTML strukturu | 15 |
+| ✅ 2 | Mobile-first responsive dizayn (Flexbox/Grid) | 25 |
+| ✅ 3 | Vanilla JS ilə interaktiv elementlər | 25 |
+| ✅ **4** | **Contact form — müştəri tərəfli validasiya** | **15** |
+| ⬜ 5 | Accessibility (ARIA, klaviatura naviqasiyası) | 10 |
+| ⬜ 6 | Kod keyfiyyəti (BEM, inline style yoxdur) | 10 |
 
 ---
 
-## 3. Qarşılaşdığımız Problemlər (Problems Faced)
-İlkin HTML kodunun analizində aşağıdakı problemlər müəyyən olundu:
-1.  **Footer Eksikliyi:** Səhifənin sonunu bildiriş və müəllif hüquqları ilə tamamlayan heç bir `<footer>` teqi yox idi.
-2.  **Başlıq İyerarxiyasının Pozulması:** Statistika kartlarında olan "150+" və "99%" rəqəmləri üçün `<h2>` başlıq teqlərindən istifadə olunmuşdu ki, bu da HTML strukturunu pozurdu (çünki bu rəqəmlər başlıq deyil, sadəcə məlumat göstəriciləridir). Həmçinin, Qalereya bölməsinin heç bir başlığı yox idi.
-3.  **İşləməyən Naviqasiya Linkləri:** Naviqasiya linklərində (`href="#haqqımızda"`) Azərbaycan şriftləri istifadə olunmuşdu və bölmələrin (Sections) özlərində uyğun `id` yox idi. Bu, səhifədaxili keçidi (scroll) qeyri-mümkün edirdi.
-4.  **Əlçatanlıq (Form və Şəkil) Problemləri:** Form etiketləri (`<label>`) və daxiletmə sahələri (`<input>`) bir-birinə bağlı deyildi (`for` və `id` boş idi). Qalereyadakı şəkillərin `alt` atributları boş idi, bu da görmə məhdudiyyətli istifadəçilər üçün səhifəni anlaşılmaz edirdi.
+## ✅ Checkpoint 4 — Contact Form Client-Side Validation
+
+**Məqsəd:** İstifadəçi əlaqə formasını göndərməzdən əvvəl bütün sahələr JavaScript vasitəsilə yoxlanılır. Heç bir brauzer default validasiyasından istifadə edilmir — bütün məntiqi biz özümüz yazırıq.
 
 ---
 
-## 4. Problemlərin Həlli Yolu (How We Solved It)
-1.  Səhifənin ən sonuna müəllif hüquqlarını əks etdirən **`<footer>`** elementi əlavə etdik.
-2.  Statistika kartlarında `<h2>` yerinə CSS ilə dizayn edilə bilən **`<span>`** (`class="stat-number"`) elementindən istifadə etdik. Qalereya bölməsinə isə düzgün struktur üçün `<h2>Bizim Qalereya</h2>` başlığını əlavə etdik.
-3.  Bölmələri ingilis şriftlərinə uyğun **`id="haqqimizda"`**, **`id="galereya"`**, **`id="elaqe"`** ilə işarələdik və menyudakı keçidləri (`href`) bunlara uyğunlaşdırdıq.
-4.  Form elementlərinin hər birinə unikal `id` verdik və label teqlərinin `for` atributlarını bu `id`-lərlə eşləşdirdik (məsələn: `for="fullname"` və `id="fullname"`). Şəkillərə isə məzmunu təsvir edən **`alt`** mətnləri yazdıq.
+### 🗂 Dəyişdirilən fayllar
+
+| Fayl | Nə dəyişdi |
+|------|-----------|
+| `index.html` | Hər sahənin altına `<span class="contact__error">` və uğur mesajı üçün `<div class="contact__success">` əlavə edildi. `required` atributu çıxarıldı (JS idarə edir). |
+| `styles.css` | Validation üçün 4 yeni vəziyyət stili, animasiya və uğur mesajı stili əlavə edildi. |
+| `script.js` | IIFE içərisində tam validasiya məntiqi yazıldı. |
 
 ---
 
-# Checkpoint 2: Mobil-ilk (Mobile-First) Responsive Dizayn Hesabatı
+### ⚙️ JavaScript Məntiqi (script.js)
 
-Bu hesabatda "NovaTech" layihəsinin ikinci mərhələsində (Checkpoint 2) görülən işlər, tətbiq olunmuş yanaşma, istifadə olunan BEM CSS strukturu, qarşılaşdığımız responsivlik problemləri və onların həlli yolları əks olunmuşdur.
+Validation kodu ayrı bir **IIFE** (Immediately Invoked Function Expression) içərisindədir ki, qlobal dəyişən çirklənməsi baş verməsin.
+
+#### 1. Boş Sahə Yoxlanması (Empty Field Check)
+
+```js
+if (value === '') {
+    setInvalid(input, errorEl, 'Bu sahə boş buraxıla bilməz.');
+    return false;
+}
+```
+
+`input.value.trim()` istifadə edilir — yalnız boşluqla dolu sahə də "boş" sayılır.
+
+#### 2. Email Regex Yoxlanması
+
+```js
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (!EMAIL_REGEX.test(value)) {
+    setInvalid(input, errorEl, 'Düzgün e-mail ünvanı daxil edin (məs: ad@example.com).');
+    return false;
+}
+```
+
+Regex yoxlayır:
+- `@` simvolu mütləq olmalıdır
+- `@`-dan əvvəl ən azı 1 simvol olmalıdır
+- `@`-dan sonra nöqtə (`.`) və domain uzantısı olmalıdır
+- Boşluq (`\s`) olmamalıdır
+
+#### 3. Əlavə Uzunluq Yoxlamaları
+
+```js
+// Ad sahəsi — minimum 2 simvol
+if (input.id === 'fullname' && value.length < 2) { ... }
+
+// Mesaj sahəsi — minimum 10 simvol
+if (input.id === 'message' && value.length < 10) { ... }
+```
+
+#### 4. Real-time Validasiya (Blur + Input hadisələri)
+
+```js
+// İstifadəçi sahəni tərk edəndə yoxla
+input.addEventListener('blur', () => {
+    if (input.value.trim() !== '') validateField(input, error);
+});
+
+// Xətalı sahədə yazarkən anlıq yoxla
+input.addEventListener('input', () => {
+    if (input.classList.contains('contact__input--invalid')) {
+        validateField(input, error);
+    }
+});
+```
+
+**UX məntiq:** Sahə ilk açılanda xəta göstərilmir. Xəta yalnız istifadəçi sahəni tərk etdikdən sonra görünür. Xətalı sahədə yazarkən isə anlıq düzəlir.
+
+#### 5. Submit Handler
+
+```js
+form.addEventListener('submit', (e) => {
+    e.preventDefault(); // Brauzer default göndərməni bloklayır
+
+    const results = fields.map(({ input, error }) => validateField(input, error));
+    const allValid = results.every(Boolean);
+
+    if (!allValid) {
+        // Shake animasiyası + ilk xətalı sahəyə focus
+        // ...
+        return;
+    }
+
+    // Uğurlu göndərim: 800ms gecikmə ilə simulyasiya
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Göndərilir...';
+    setTimeout(() => { /* ... */ }, 800);
+});
+```
 
 ---
 
-## 1. Görülən İş (Work Done)
-Checkpoint 2 tələblərinə uyğun olaraq, səhifənin dizaynı tamamilə mobil-ilk (mobile-first) və responsiv şəkildə quruldu. Bütün ekran ölçülərinə (mobil, planşet, desktop) uyğunlaşma təmin edildi:
-*   **BEM Metodologiyası:** CSS faylındakı bütün siniflər BEM (Block, Element, Modifier) standartlarına uyğun olaraq yenidən yazıldı.
-*   **Responsive Grid & Flexbox:** Səhifənin bütün bölmələri (Hero, Haqqımızda statistika kartları, Qalereya şəkilləri, Əlaqə forması və Footer) müxtəlif ekran breakpointlərinə uyğun olaraq çevik şəkildə strukturlaşdırıldı.
-*   **Footer Yenilənməsi:** Footer bölməsinin rəngləri videoya uyğun olaraq tünd fon (`#0f172a` Slate 900) və açıq boz mətn (`#94a3b8` Slate 400) olaraq yeniləndi.
+### 🎨 CSS Validation Stilləri (styles.css)
+
+```css
+/* Xətalı sahə */
+.contact__input--invalid { border-color: #dc2626; background-color: #fff5f5; }
+
+/* Düzgün sahə */
+.contact__input--valid   { border-color: #16a34a; background-color: #f0fdf4; }
+
+/* Xəta mesajı — animasiyalı görkəm */
+.contact__error { opacity: 0; transform: translateY(-4px); transition: opacity 0.2s, transform 0.2s; }
+.contact__error:not(:empty) { opacity: 1; transform: translateY(0); }
+
+/* Uğurlu göndərim paneli */
+.contact__success { background-color: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; }
+
+/* Shake animasiyası — xətalı submit cəhdi */
+@keyframes shake { 15% { transform: translateX(-6px); } ... }
+```
 
 ---
 
-## 2. İstifadə Edilən Yanaşma (Approach Used)
-Müasir frontend dizayn standartlarına cavab vermək üçün aşağıdakı yanaşmalardan istifadə olundu:
-*   **Mobile-First CSS:** Bütün CSS kodları ilk olaraq mobil ekranlar üçün yazıldı və daha böyük ekranlar üçün `@media` sorğuları (Media Queries) vasitəsilə tədricən genişləndirildi.
-*   **Breakpoint İyerarxiyası:** 3 əsas breakpoint təyin olundu:
-    1.  **Mobil (Default):** `< 768px` ölçülü ekranlar.
-    2.  **Planşet (Tablet):** `min-width: 768px` olan ekranlar.
-    3.  **Masaüstü (Desktop):** `min-width: 1024px` olan ekranlar.
-*   **BEM Strukturlaşdırması:** Bütün elementlər `.blok__element--modifier` formatında siniflərlə işarələndi. Məsələn:
-    *   `.header` (Blok)
-    *   `.header__toggle` (Element)
-    *   `.header__toggle--active` (Modifier)
+### 🏷 BEM Sinifləri
+
+Checkpoint 4-də əlavə olunan bütün CSS sinifləri BEM konvensiyasına uyğundur:
+
+| Sinif | Blok | Element | Modifier |
+|-------|------|---------|----------|
+| `contact__error` | `contact` | `error` | — |
+| `contact__success` | `contact` | `success` | — |
+| `contact__input--invalid` | `contact` | `input` | `invalid` |
+| `contact__input--valid` | `contact` | `input` | `valid` |
+| `contact__form--shake` | `contact` | `form` | `shake` |
 
 ---
 
-## 3. Qarşılaşdığımız Problemlər (Problems Faced)
-1.  **Grid faiz hesablama çətinlikləri:** Flexbox ilə en ölçülərini faizlərlə vermək müxtəlif mobil ekranlarda sürüşmələrə səbəb olurdu.
-2.  **Mobil menyunun desktopda qalması:** Mobil görünüşdə açılmış menyu paneli ekran böyüdüldükdə (məsələn, planşet və ya desktop rejiminə keçdikdə) ekranın sağ tərəfində sabit (fixed) olaraq qalır və ekranı örtürdü.
+### 🧪 Manual Test Ssenarisi
+
+| Ssenari | Gözlənilən nəticə |
+|---------|-----------------|
+| Bütün sahələr boş, "Göndər" kliklə | Hər sahə qırmızı border + xəta mesajı, form shake animasiyası |
+| Yalnız ad yazıb submit et | Email + mesaj sahəsindən xəta, ad sahəsi yaşıl |
+| `test` kimi yanlış email yaz | "Düzgün e-mail ünvanı daxil edin..." xətası |
+| `test@` yaz | Eyni email xətası |
+| Bütün sahələri düzgün doldur | "Göndərilir..." → ✅ uğur mesajı (6 saniyə sonra gizlənir) |
+| Uğur mesajı göründükdən sonra yenidən doldur | Form sıfırlanır, yenidən göndərmək olar |
 
 ---
 
-## 4. Problemlərin Həlli Yolu (How We Solved It)
-1.  **Grid Layout tətbiqi:** `.gallery__grid` və `.about__container` bölmələrində faiz hesablama yerinə CSS Grid (`grid-template-columns`) tətbiq olundu. Bu, responsive keçidləri tamamilə stabil etdi.
-2.  **Desktop Reseti:** `styles.css` faylında `min-width: 768px` media sorğusunun daxilində mobil menyu drawer-i, overlay və hamburger düyməsi üçün bütün üslublar sıfırlandı (`transform: none`, `position: static`, `display: none` və s.).
-3.  **Z-Index İyerarxiyası:** `.header` üçün `z-index: 100`, mobil drawer `.header__nav` üçün `z-index: 1000` və hamburger toggler `.header__toggle` üçün `z-index: 1100` təyin olundu. Beləliklə, düymə və menyu həmişə bütün səhifənin ən üstündə düzgün şəkildə nümayiş olunur.
+## 🚀 Layihəni Açmaq
+
+Heç bir build prosesi tələb olunmur. `index.html` faylını brauzerdə açmaq kifayətdir.
+
+```
+Landing_page_Task-1/
+├── index.html
+├── styles.css
+├── script.js
+├── README.md
+└── assets/
+    ├── tech1.jpeg
+    ├── tech2.jpeg
+    └── tech3.jpeg
+```
 
 ---
 
-# Checkpoint 3: Vanilla JS ilə İnteraktiv Elementlər
+## 🛠 İstifadə Edilən Texnologiyalar
 
-Bu hesabatda "NovaTech" layihəsinin üçüncü mərhələsində (Checkpoint 3) görülən işlər, tətbiq olunmuş yanaşma, qarşılaşdığımız problemlər və onların həlli yolları əks olunmuşdur.
-
----
-
-## 1. Görülən İş (Work Done)
-Checkpoint 3 tələblərinə uyğun olaraq, xalis JavaScript (Vanilla JS) ilə aşağıdakı interaktiv elementlər tətbiq olundu:
-*   **Mobil Menyu Toggle:** Hamburger düyməsi (`header__toggle`) kliklənəndə mobil naviqasiya paneli (drawer) sağdan sürüşərək açılır. Yenidən klikləndiqdə bağlanır.
-*   **Hamburger → X Animasiyası:** Menyu açıq olduqda hamburger xətlərinin ikisi `rotate(45deg)` və `rotate(-45deg)` ilə X şəklinə çevrilir, ortadakı isə gizlənir.
-*   **Overlay ilə Bağlama:** Menyu açıq olduqda arxa fona (overlay) klikləmək menyunu avtomatik bağlayır.
-*   **Link klikləndikdə Bağlama:** Naviqasiya linklərindən birinə klikləndikdə menyu bağlanır və `html { scroll-behavior: smooth }` sayəsində hədəf bölməyə rəvan sürüşmə (smooth scroll) həyata keçirilir.
-*   **Klaviatura Dəstəyi (Accessibility):** `Escape` düyməsinə basıldıqda menyu bağlanır və fokus hamburger düyməsinə qaytarılır.
-*   **Resize Hadisəsi:** Pəncərə ölçüsü `768px`-dən böyük olan ölçüyə keçdikdə, əgər mobil menyu açıqdırsa, avtomatik bağlanır.
+- **HTML5** — Semantik elementlər (`header`, `nav`, `main`, `section`, `footer`)
+- **CSS3** — Flexbox, Grid, CSS Custom Properties, Media Queries, Keyframe Animations
+- **Vanilla JavaScript** — DOM manipulation, Event listeners, Regex, IIFE pattern
+- **Google Fonts** — Inter (400, 500, 600, 700, 800)
 
 ---
 
-## 2. İstifadə Edilən Yanaşma (Approach Used)
-*   **`DOMContentLoaded`:** Bütün JS məntiqi `document.addEventListener('DOMContentLoaded', ...)` içərisindən başladılır ki, HTML tam yüklənmədən element axtarışı aparılmasın.
-*   **Modul Funksiyaları:** `openMenu()`, `closeMenu()` və `toggleMenu()` ayrı funksiyalar kimi yazıldı ki, hər event listener eyni məntiqi paylaşsın, kod təkrarlanmasın.
-*   **`aria-expanded` Atributu:** Menyu açıldıqda `aria-expanded="true"`, bağlandıqda `aria-expanded="false"` dinamik olaraq yenilənir — ekran oxuyucuları üçün əlçatanlığı təmin edir.
-*   **Body Scroll Lock:** Menyu açıq olduqda `document.body.style.overflow = 'hidden'` ilə arxa fonun sürüşməsi dondurulur, bağlandıqda açılır.
-*   **CSS Class Toggle:** JS birbaşa DOM-u dəyişmir; `.header__nav--open`, `.header__toggle--active`, `.header__overlay--visible` siniflərini əlavə/silir — bütün vizual keçidlər CSS tərəfindən idarə olunur.
-
----
-
-## 3. Qarşılaşdığımız Problemlər (Problems Faced)
-1.  **Logo Toqquşması:** Mobil menyu açıldıqda "NovaTech" loqosu `z-index: 1100` ilə menyu panelinin üzərinə çıxırdı.
-2.  **Scroll Kilidi Yenilənməməsi:** Resize hadisəsindən sonra `body.style.overflow` `'hidden'` olaraq qalırdı ki, bu da istifadəçinin səhifəni sürüşdürməsinə mane olurdu.
-3.  **ESC Düyməsi Fokus İtirilməsi:** Menyu ESC ilə bağlandıqdan sonra fokus itirilirdi, istifadəçi klaviatura ilə davam edə bilmirdi.
-
----
-
-## 4. Problemlərin Həlli Yolu (How We Solved It)
-1.  **Logo Z-Index Silindi:** `.header__logo` sinfindən `z-index: 1100` dəyəri silindi. Artıq loqo menyu panelinin arxasında qalır.
-2.  **`closeMenu()` Mərkəzləşdirildi:** `closeMenu()` funksiyası bütün bağlama ssenarilərini (overlay klik, link klik, ESC, resize) əhatə edir və hər dəfə `document.body.style.overflow = ''` çağırılır.
-3.  **`menuToggle.focus()`:** ESC basıldıqdan sonra `closeMenu()` çağırılır və ardınca `menuToggle.focus()` ilə fokus düyməyə qaytarılır.
+*© 2026 NovaTech. DevJoint Frontend Development Task.*

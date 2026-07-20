@@ -91,18 +91,23 @@
                 <form action="#" method="POST" class="contact__form" netlify>
                     <div class="contact__form-group">
                         <label for="fullname" class="contact__label">Ad və Soyad*</label>
-                        <input type="text" id="fullname" name="fullname" class="contact__input" required>
+                        <input type="text" id="fullname" name="fullname" class="contact__input" autocomplete="name">
+                        <span class="contact__error" id="fullname-error" aria-live="polite"></span>
                     </div>
                     <div class="contact__form-group">
                         <label for="email" class="contact__label">E-mail Ünvanı*</label>
-                        <input type="email" id="email" name="email" class="contact__input" required>
+                        <input type="email" id="email" name="email" class="contact__input" autocomplete="email">
+                        <span class="contact__error" id="email-error" aria-live="polite"></span>
                     </div>
                     <div class="contact__form-group">
                         <label for="message" class="contact__label">Mesajınız*</label>
-                        <textarea name="message" id="message" cols="30" rows="10" class="contact__textarea"
-                            required></textarea>
+                        <textarea name="message" id="message" cols="30" rows="10" class="contact__textarea"></textarea>
+                        <span class="contact__error" id="message-error" aria-live="polite"></span>
                     </div>
-                    <button type="submit" class="button button--submit contact__button">Göndər</button>
+                    <button type="submit" class="button button--submit contact__button" id="submit-btn">Göndər</button>
+                    <div class="contact__success" id="form-success" aria-live="polite" hidden>
+                        Mesajınız uğurla göndərildi! Tezliklə sizinlə əlaqə saxlayacağıq.
+                    </div>
                 </form>
             </div>
         </section>
