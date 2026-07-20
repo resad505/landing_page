@@ -77,3 +77,42 @@ Müasir frontend dizayn standartlarına cavab vermək üçün aşağıdakı yana
 2.  **Desktop Reseti:** `styles.css` faylında `min-width: 768px` media sorğusunun daxilində mobil menyu drawer-i, overlay və hamburger düyməsi üçün bütün üslublar sıfırlandı (`transform: none`, `position: static`, `display: none` və s.).
 3.  **Z-Index İyerarxiyası:** `.header` üçün `z-index: 100`, mobil drawer `.header__nav` üçün `z-index: 1000` və hamburger toggler `.header__toggle` üçün `z-index: 1100` təyin olundu. Beləliklə, düymə və menyu həmişə bütün səhifənin ən üstündə düzgün şəkildə nümayiş olunur.
 
+---
+
+# Checkpoint 3: Vanilla JS ilə İnteraktiv Elementlər
+
+Bu hesabatda "NovaTech" layihəsinin üçüncü mərhələsində (Checkpoint 3) görülən işlər, tətbiq olunmuş yanaşma, qarşılaşdığımız problemlər və onların həlli yolları əks olunmuşdur.
+
+---
+
+## 1. Görülən İş (Work Done)
+Checkpoint 3 tələblərinə uyğun olaraq, xalis JavaScript (Vanilla JS) ilə aşağıdakı interaktiv elementlər tətbiq olundu:
+*   **Mobil Menyu Toggle:** Hamburger düyməsi (`header__toggle`) kliklənəndə mobil naviqasiya paneli (drawer) sağdan sürüşərək açılır. Yenidən klikləndiqdə bağlanır.
+*   **Hamburger → X Animasiyası:** Menyu açıq olduqda hamburger xətlərinin ikisi `rotate(45deg)` və `rotate(-45deg)` ilə X şəklinə çevrilir, ortadakı isə gizlənir.
+*   **Overlay ilə Bağlama:** Menyu açıq olduqda arxa fona (overlay) klikləmək menyunu avtomatik bağlayır.
+*   **Link klikləndikdə Bağlama:** Naviqasiya linklərindən birinə klikləndikdə menyu bağlanır və `html { scroll-behavior: smooth }` sayəsində hədəf bölməyə rəvan sürüşmə (smooth scroll) həyata keçirilir.
+*   **Klaviatura Dəstəyi (Accessibility):** `Escape` düyməsinə basıldıqda menyu bağlanır və fokus hamburger düyməsinə qaytarılır.
+*   **Resize Hadisəsi:** Pəncərə ölçüsü `768px`-dən böyük olan ölçüyə keçdikdə, əgər mobil menyu açıqdırsa, avtomatik bağlanır.
+
+---
+
+## 2. İstifadə Edilən Yanaşma (Approach Used)
+*   **`DOMContentLoaded`:** Bütün JS məntiqi `document.addEventListener('DOMContentLoaded', ...)` içərisindən başladılır ki, HTML tam yüklənmədən element axtarışı aparılmasın.
+*   **Modul Funksiyaları:** `openMenu()`, `closeMenu()` və `toggleMenu()` ayrı funksiyalar kimi yazıldı ki, hər event listener eyni məntiqi paylaşsın, kod təkrarlanmasın.
+*   **`aria-expanded` Atributu:** Menyu açıldıqda `aria-expanded="true"`, bağlandıqda `aria-expanded="false"` dinamik olaraq yenilənir — ekran oxuyucuları üçün əlçatanlığı təmin edir.
+*   **Body Scroll Lock:** Menyu açıq olduqda `document.body.style.overflow = 'hidden'` ilə arxa fonun sürüşməsi dondurulur, bağlandıqda açılır.
+*   **CSS Class Toggle:** JS birbaşa DOM-u dəyişmir; `.header__nav--open`, `.header__toggle--active`, `.header__overlay--visible` siniflərini əlavə/silir — bütün vizual keçidlər CSS tərəfindən idarə olunur.
+
+---
+
+## 3. Qarşılaşdığımız Problemlər (Problems Faced)
+1.  **Logo Toqquşması:** Mobil menyu açıldıqda "NovaTech" loqosu `z-index: 1100` ilə menyu panelinin üzərinə çıxırdı.
+2.  **Scroll Kilidi Yenilənməməsi:** Resize hadisəsindən sonra `body.style.overflow` `'hidden'` olaraq qalırdı ki, bu da istifadəçinin səhifəni sürüşdürməsinə mane olurdu.
+3.  **ESC Düyməsi Fokus İtirilməsi:** Menyu ESC ilə bağlandıqdan sonra fokus itirilirdi, istifadəçi klaviatura ilə davam edə bilmirdi.
+
+---
+
+## 4. Problemlərin Həlli Yolu (How We Solved It)
+1.  **Logo Z-Index Silindi:** `.header__logo` sinfindən `z-index: 1100` dəyəri silindi. Artıq loqo menyu panelinin arxasında qalır.
+2.  **`closeMenu()` Mərkəzləşdirildi:** `closeMenu()` funksiyası bütün bağlama ssenarilərini (overlay klik, link klik, ESC, resize) əhatə edir və hər dəfə `document.body.style.overflow = ''` çağırılır.
+3.  **`menuToggle.focus()`:** ESC basıldıqdan sonra `closeMenu()` çağırılır və ardınca `menuToggle.focus()` ilə fokus düyməyə qaytarılır.
