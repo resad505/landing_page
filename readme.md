@@ -195,3 +195,40 @@ Checkpoint 5 tələblərinə uyğun olaraq, veb-səhifənin əlçatanlığı (a1
 1.  **`visibility: hidden` İnteqrasiyası:** Mobil naviqasiya panelinə (`.header__nav`) varsayılan olaraq `visibility: hidden` verildi və menyu açıldıqda `visibility: visible` sinfi tətbiq olundu. Bu, keçid animasiyasını pozmadan bağlı menyunun fokuslanmasının qarşısını aldı.
 2.  **Daha Yüksək Kontrastlı Rəng:** Xəta rəngi `#dc2626`-dan `#b91c1c` tonuna dəyişdirildi. Bu, vizual dizayna zərər vermədən kontrast nisbətini 6.5:1-ə qaldırdı.
 3.  **JavaScript ilə Focus Trap:** `script.js` faylında klaviatura hadisələrini izləyərək Tab və Shift+Tab basıldıqda fokusun yalnız hamburger düyməsi və menyu linkləri arasında dövr etməsinə nəzarət edən məntiq quruldu.
+
+---
+
+# Checkpoint 6: Kod Keyfiyyəti — Adlandırma Konvensiyası və Inline Style Hesabatı
+
+Bu hesabatda "NovaTech" layihəsinin altıncı mərhələsində (Checkpoint 6) görülən işlər, tətbiq olunmuş yanaşma, aşkar edilmiş problemlər və onların həlli yolları əks olunmuşdur.
+
+---
+
+## 1. Görülən İş (Work Done)
+Checkpoint 6 tələblərinə uyğun olaraq, layihənin bütün CSS, HTML və JavaScript faylları kod keyfiyyəti baxımından audita tabe tutuldu. Aşağıdakı düzəlişlər aparıldı:
+
+*   **CSS Dəyişkənlərinin Genişləndirilməsi:** Validasiya stillərindəki bütün hardcoded HEX rəng dəyərləri (`#dc2626`, `#b91c1c`, `#16a34a`, `#f0fdf4` və s.) silinərək `:root` daxilindəki CSS custom properties ilə əvəzləndi.
+*   **Inline Style-ların Silinməsi:** `script.js` faylındakı `document.body.style.overflow = 'hidden'` və `document.body.style.overflow = ''` sətirləri — birbaşa Checkpoint 6 tələbinə zid olan inline style istifadəsiydi — silindi.
+*   **Yeni BEM Utility Class:** Scroll kilidini idarə etmək üçün `styles.css` faylına `.body--no-scroll { overflow: hidden; }` BEM utility sinifi əlavə edildi.
+
+---
+
+## 2. İstifadə Edilən Yanaşma (Approach Used)
+*   **BEM Metodologiyası (tam audit):** HTML-dəki bütün siniflər yenidən yoxlanıldı. `.blok`, `.blok__element`, `.blok--modifier` formatının bütün fayllarda ardıcıl şəkildə tətbiq olunduğu təsdiqləndi.
+*   **CSS Custom Properties (Design Token):** Rəng, şrift, kölgə kimi bütün dizayn dəyərləri `:root` daxilindəki CSS dəyişkənlərindən alınır. Heç bir hardcoded (literal) dəyər istifadə edilmir.
+*   **Style-ı JS deyil, CSS idarə edir:** Vizual vəziyyət dəyişiklikləri (scroll kilidi daxil olmaqla) birbaşa `style` atributu ilə deyil, CSS sinifləri əlavə/silmək yolu ilə həyata keçirilir — bu, separation of concerns (məsuliyyətin ayrılması) prinsipinə tam uyğundur.
+
+---
+
+## 3. Aşkar Edilmiş Problemlər (Problems Found)
+1.  **`script.js`-də inline style istifadəsi:** Mobil menyu açıldıqda/bağlandıqda `document.body.style.overflow` birbaşa dəyişdirilirdi. Bu, Checkpoint 6-nın "no inline style" tələbini birbaşa pozurdu.
+2.  **CSS-də hardcoded HEX rəng dəyərləri:** Validasiya və uğur mesajı üçün istifadə olunan bütün rənglər (`#dc2626`, `#fff5f5`, `#16a34a`, `#f0fdf4`, `#bbf7d0`, `#b91c1c`, `#15803d`) CSS dəyişkəni əvəzinə literal şəkildə yazılmışdı. Bu, həm saxlanma qabiliyyətini (maintainability) azaldırdı, həm də dizayn sisteminin bütövlüyünü pozurdu.
+
+---
+
+## 4. Problemlərin Həlli Yolu (How We Solved It)
+1.  **`document.body.classList` ilə Əvəzetmə:** `openMenu()` funksiyasında `document.body.style.overflow = 'hidden'` sətri `document.body.classList.add('body--no-scroll')` ilə, `closeMenu()` funksiyasında isə `document.body.style.overflow = ''` sətri `document.body.classList.remove('body--no-scroll')` ilə əvəzləndi.
+2.  **Yeni CSS Dəyişkənlərinin Əlavəsi:** `styles.css` faylının `:root` blokuna aşağıdakı 10 yeni CSS dəyişkəni əlavə olundu:
+    *   Xəta üçün: `--error-color`, `--error-text`, `--error-bg`, `--error-ring`, `--error-ring-focus`
+    *   Uğur üçün: `--success-color`, `--success-text`, `--success-bg`, `--success-border`, `--success-ring`
+3.  **Bütün Hardcoded Dəyərlərin Əvəzlənməsi:** Validasiya stillərindəki (`--invalid`, `--valid`, `.contact__error`, `.contact__success`) bütün literal HEX dəyərlər yeni CSS dəyişkənləri ilə əvəzləndi.
