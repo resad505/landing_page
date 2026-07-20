@@ -116,3 +116,43 @@ Checkpoint 3 tələblərinə uyğun olaraq, xalis JavaScript (Vanilla JS) ilə a
 1.  **Logo Z-Index Silindi:** `.header__logo` sinfindən `z-index: 1100` dəyəri silindi. Artıq loqo menyu panelinin arxasında qalır.
 2.  **`closeMenu()` Mərkəzləşdirildi:** `closeMenu()` funksiyası bütün bağlama ssenarilərini (overlay klik, link klik, ESC, resize) əhatə edir və hər dəfə `document.body.style.overflow = ''` çağırılır.
 3.  **`menuToggle.focus()`:** ESC basıldıqdan sonra `closeMenu()` çağırılır və ardınca `menuToggle.focus()` ilə fokus düyməyə qaytarılır.
+
+---
+
+# Checkpoint 4: Əlaqə Formasının Müştəri Tərəfli Validasiyası
+
+Bu hesabatda "NovaTech" layihəsinin dördüncü mərhələsində (Checkpoint 4) görülən işlər, tətbiq olunmuş yanaşma, qarşılaşdığımız problemlər və onların həlli yolları əks olunmuşdur.
+
+---
+
+## 1. Görülən İş (Work Done)
+Checkpoint 4 tələblərinə uyğun olaraq, əlaqə formasına tam müştəri tərəfli (client-side) validasiya tətbiq olundu. Brauzer default `required` validasiyasından istifadə edilmir — bütün yoxlanma məntiqi xalis JavaScript ilə yazılıb:
+*   **Boş Sahə Yoxlanması:** Hər üç sahə (Ad, E-mail, Mesaj) boş göndərilsə, müvafiq xəta mesajı göstərilir.
+*   **Email Regex Yoxlanması:** E-mail sahəsinin `user@domain.com` formatına uyğunluğu regex ilə yoxlanılır.
+*   **Uzunluq Yoxlanması:** Ad sahəsi minimum 2 simvol, Mesaj sahəsi minimum 10 simvol olmalıdır.
+*   **Real-time Validasiya:** İstifadəçi sahəni tərk etdikdə (`blur`) xəta göstərilir; xətalı sahədə yazarkən (`input`) xəta anlıq düzəlir.
+*   **Vizual Feedback:** Xətalı sahələr qırmızı, düzgün sahələr yaşıl rəngə boyanır.
+*   **Uğurlu Göndərim:** Bütün sahələr doğruysa form sıfırlanır və yaşıl uğur mesajı 6 saniyə görünür.
+
+---
+
+## 2. İstifadə Edilən Yanaşma (Approach Used)
+*   **IIFE (Immediately Invoked Function Expression):** Bütün validasiya kodu `(function() { ... })()` daxilindədir ki, qlobal dəyişənlər yaranmasın və mövcud `DOMContentLoaded` kodu ilə toqquşmasın.
+*   **`e.preventDefault()`:** Formanın default göndərilməsi bloklanır; göndərmə prosesi tamamilə JS tərəfindən idarə olunur.
+*   **BEM Modifier sinifləri:** Vizual vəziyyət dəyişiklikləri üçün birbaşa `style` yazılmır; `.contact__input--invalid`, `.contact__input--valid` və `.contact__form--shake` sinifləri əlavə/silinir — CSS tərəfindən idarə olunur.
+*   **`aria-invalid` atributu:** Xətalı sahəyə `aria-invalid="true"` əlavə edilir, düzgün sahəyə `"false"` təyin olunur — ekran oxuyucuları üçün əlçatanlıq təmin edilir.
+*   **`aria-live="polite"`:** Xəta mesajı `<span>`-larına bu atribut əlavə edilib ki, ekran oxuyucuları dəyişikliyi istifadəçiyə bildirsin.
+
+---
+
+## 3. Qarşılaşdığımız Problemlər (Problems Faced)
+1.  **Brauzer Default Validasiyası ilə Toqquşma:** `required` atributu saxlanılsaydı, brauzer öz xəta baloncuğunu göstərərdi — bu, bizim JS mesajları ilə toqquşurdu.
+2.  **Shake Animasiyasının Yenidən İşə Düşməməsi:** `contact__form--shake` sinifini əlavə etdikdə, eyni sinif artıq mövcud olduğu üçün animasiya yenidən başlamırdı.
+3.  **Textarea üçün Modifier Toqquşması:** `setInvalid` funksiyasında `contact__input--invalid` sinifini textarea-ya da əlavə etmək lazım idi, çünki textarea fərqli bir elementdir.
+
+---
+
+## 4. Problemlərin Həlli Yolu (How We Solved It)
+1.  **`required` Atributunun Silinməsi:** Bütün form sahələrindən `required` atributu çıxarıldı. Validasiya tamamilə JS tərəfindən idarə olunur.
+2.  **`void form.offsetWidth` ilə Reflow:** Animasiyanı yenidən başlatmaq üçün sinif silinir, `void form.offsetWidth` ilə brauzerin yenidən hesablama (reflow) aparması məcbur edilir, sonra sinif yenidən əlavə olunur.
+3.  **Hər iki sinif əlavə edildi:** `setInvalid` / `setValid` funksiyalarında həm `.contact__input--invalid` həm də `.contact__textarea--invalid` sinifləri eyni vaxtda əlavə/silinir ki, hər iki element tipi düzgün işləsin.
