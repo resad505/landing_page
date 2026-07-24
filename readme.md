@@ -46,6 +46,7 @@ Bu hesabatda "NovaTech" layihəsinin ikinci mərhələsində (Checkpoint 2) gör
 
 ## 1. Görülən İş (Work Done)
 Checkpoint 2 tələblərinə uyğun olaraq, səhifənin dizaynı tamamilə mobil-ilk (mobile-first) və responsiv şəkildə quruldu. Bütün ekran ölçülərinə (mobil, planşet, desktop) uyğunlaşma təmin edildi:
+*   **Qalereyada Elementlərin Örtüşməsi (Overlapping & Z-Index):** Qalereya şəkilləri üçün sadə tor yerinə dinamik örtüşmə (overlapping) və z-index iyerarxiyası tətbiq olundu.
 *   **BEM Metodologiyası:** CSS faylındakı bütün siniflər BEM (Block, Element, Modifier) standartlarına uyğun olaraq yenidən yazıldı.
 *   **Responsive Grid & Flexbox:** Səhifənin bütün bölmələri (Hero, Haqqımızda statistika kartları, Qalereya şəkilləri, Əlaqə forması və Footer) müxtəlif ekran breakpointlərinə uyğun olaraq çevik şəkildə strukturlaşdırıldı.
 *   **Footer Yenilənməsi:** Footer bölməsinin rəngləri videoya uyğun olaraq tünd fon (`#0f172a` Slate 900) və açıq boz mətn (`#94a3b8` Slate 400) olaraq yeniləndi.
@@ -55,6 +56,10 @@ Checkpoint 2 tələblərinə uyğun olaraq, səhifənin dizaynı tamamilə mobil
 ## 2. İstifadə Edilən Yanaşma (Approach Used)
 Müasir frontend dizayn standartlarına cavab vermək üçün aşağıdakı yanaşmalardan istifadə olundu:
 *   **Mobile-First CSS:** Bütün CSS kodları ilk olaraq mobil ekranlar üçün yazıldı və daha böyük ekranlar üçün `@media` sorğuları (Media Queries) vasitəsilə tədricən genişləndirildi.
+*   **Örtüşən Qalereya Məntiqi (Overlapping Gallery):** 
+    *   `position: relative` və iyerarxik `z-index: 1, 2, 3` təyin olunaraq `.gallery__item` elementləri mənfi marjinlər (`margin-top`, `margin-left`) ilə bir-birinin üzərinə keçirildi.
+    *   Mobil görünüşdə şaquli örtüşmə, planşetdə 12-kolonkalı tor kəsişməsi, desktopda isə üfüqi mənfi ofsetli pilləli dizayn quruldu.
+    *   İstifadəçi şəklin üzərinə geldikdə (`:hover`) və ya fokuslandıqda (`:focus-within`), həmin element `z-index: 10` (desktopda `z-index: 20`) yüksəkliyinə qalxaraq `transform: translateY(...) scale(...)` effekti ilə ən önə çıxarılır.
 *   **Breakpoint İyerarxiyası:** 3 əsas breakpoint təyin olundu:
     1.  **Mobil (Default):** `< 768px` ölçülü ekranlar.
     2.  **Planşet (Tablet):** `min-width: 768px` olan ekranlar.
@@ -63,19 +68,22 @@ Müasir frontend dizayn standartlarına cavab vermək üçün aşağıdakı yana
     *   `.header` (Blok)
     *   `.header__toggle` (Element)
     *   `.header__toggle--active` (Modifier)
+    *   `.gallery__item--1` (Modifier)
 
 ---
 
 ## 3. Qarşılaşdığımız Problemlər (Problems Faced)
 1.  **Grid faiz hesablama çətinlikləri:** Flexbox ilə en ölçülərini faizlərlə vermək müxtəlif mobil ekranlarda sürüşmələrə səbəb olurdu.
-2.  **Mobil menyunun desktopda qalması:** Mobil görünüşdə açılmış menyu paneli ekran böyüdüldükdə (məsələn, planşet və ya desktop rejiminə keçdikdə) ekranın sağ tərəfində sabit (fixed) olaraq qalır və ekranı örtürdü.
+2.  **Qalereya elementlərinin sadə tor düzülüşü:** Sadə Grid istifadə edildikdə şəkillərin bir-birinin üzərinə keçməsi və laylı vizual iyerarxiya tam əks olunmurdu.
+3.  **Mobil menyunun desktopda qalması:** Mobil görünüşdə açılmış menyu paneli ekran böyüdüldükdə (məsələn, planşet və ya desktop rejiminə keçdikdə) ekranın sağ tərəfində sabit (fixed) olaraq qalır və ekranı örtürdü.
 
 ---
 
 ## 4. Problemlərin Həlli Yolu (How We Solved It)
-1.  **Grid Layout tətbiqi:** `.gallery__grid` və `.about__container` bölmələrində faiz hesablama yerinə CSS Grid (`grid-template-columns`) tətbiq olundu. Bu, responsive keçidləri tamamilə stabil etdi.
-2.  **Desktop Reseti:** `styles.css` faylında `min-width: 768px` media sorğusunun daxilində mobil menyu drawer-i, overlay və hamburger düyməsi üçün bütün üslublar sıfırlandı (`transform: none`, `position: static`, `display: none` və s.).
-3.  **Z-Index İyerarxiyası:** `.header` üçün `z-index: 100`, mobil drawer `.header__nav` üçün `z-index: 1000` və hamburger toggler `.header__toggle` üçün `z-index: 1100` təyin olundu. Beləliklə, düymə və menyu həmişə bütün səhifənin ən üstündə düzgün şəkildə nümayiş olunur.
+1.  **Qalereyada Elementlərin Örtüşməsi və Z-Index Tətbiqi:** `.gallery__item` strukturu yaradıldı, mənfi marjinlər və `z-index` iyerarxiyası tətbiq edildi. Hover və fokus hallarında şəkillər dinamik şəkildə ön qata çıxarıldı.
+2.  **Grid Layout tətbiqi:** `.gallery__grid` və `.about__container` bölmələrində faiz hesablama yerinə CSS Grid və Flexbox overlapping tətbiq olundu. Bu, responsive keçidləri tamamilə stabil etdi.
+3.  **Desktop Reseti:** `styles.css` faylında `min-width: 768px` media sorğusunun daxilində mobil menyu drawer-i, overlay və hamburger düyməsi üçün bütün üslublar sıfırlandı (`transform: none`, `position: static`, `display: none` və s.).
+4.  **Z-Index İyerarxiyası:** `.header` üçün `z-index: 100`, mobil drawer `.header__nav` üçün `z-index: 1000` və hamburger toggler `.header__toggle` üçün `z-index: 1100` təyin olundu. Qalereya kartları üçün isə `z-index: 1..3` və hover üçün `z-index: 10 / 20` istifadə olundu. Beləliklə, naviqasiya və menyu həmişə səhifənin ən üstündə qorunur, qalereya kartları isə interaktiv şəkildə öz aralarında önə çıxır.
 
 ---
 
