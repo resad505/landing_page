@@ -31,6 +31,10 @@ html {
     scroll-behavior: smooth;
 }
 
+section[id] {
+    scroll-margin-top: 64px;
+}
+
 body {
     font-family: var(--font-sans);
     background-color: var(--bg-secondary);
@@ -486,6 +490,10 @@ body {
 
 /* 1. Tablet Breakpoint (min-width: 768px) */
 @media (min-width: 768px) {
+    section[id] {
+        scroll-margin-top: 70px;
+    }
+
     .header__container {
         flex-direction: row;
         justify-content: space-between;
